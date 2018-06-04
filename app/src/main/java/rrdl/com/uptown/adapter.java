@@ -65,7 +65,7 @@ public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> implements
                 } else {
                     List<Trip> filteredlist = new ArrayList<>();
                     for (Trip row : response) {
-                        if (row.getDr().toString().toLowerCase().contains(charstring.toLowerCase())) {
+                        if (row.getStartadress().toString().toLowerCase().contains(charstring.toLowerCase())) {
                             filteredlist.add(row);
                         }
                     }
@@ -120,11 +120,10 @@ public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> implements
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            _date = itemView.findViewById(R.id.date);
-            _type = itemView.findViewById(R.id.type);
-            _source = itemView.findViewById(R.id.source);
-            _thumb = itemView.findViewById(R.id.documentthumb);
-            _star = itemView.findViewById(R.id.star);
+            _date = itemView.findViewById(R.id.title);
+            _type = itemView.findViewById(R.id.destination);
+            _source = itemView.findViewById(R.id.price);
+            _thumb = itemView.findViewById(R.id.imageView);
         }
     }
 }
