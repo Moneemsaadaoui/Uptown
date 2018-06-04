@@ -30,6 +30,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
@@ -73,7 +74,7 @@ public class LoginActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_login);
         final SharedPreferences prefs = this.getSharedPreferences("GLOBAL", this.MODE_PRIVATE);
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("https://peaceful-forest-76384.herokuapp.com/")
+                .baseUrl("https://serene-escarpment-65486.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
@@ -93,6 +94,7 @@ public class LoginActivity extends AppCompatActivity  {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                             prefs.edit().putString("AUTH",response.body().get("id").toString()).commit();
+                            Toast.makeText(LoginActivity.this, prefs.getString("AUTH","") + "as an id", Toast.LENGTH_SHORT).show();
                             Intent intent= new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(intent);
                         }

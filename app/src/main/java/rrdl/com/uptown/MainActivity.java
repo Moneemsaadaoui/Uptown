@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -28,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final android.widget.SearchView sv=findViewById(R.id.sv);
-        final RecyclerView rv=findViewById(R.id.recycler);
+        final RecyclerView rv=findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
         final SharedPreferences prefs = this.getSharedPreferences("GLOBAL", this.MODE_PRIVATE);
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("https://peaceful-forest-76384.herokuapp.com/")
+                .baseUrl("https://serene-escarpment-65486.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
@@ -41,8 +42,13 @@ public class MainActivity extends AppCompatActivity {
         getall.enqueue(new Callback<List<Trip>>() {
             @Override
             public void onResponse(Call<List<Trip>> call, Response<List<Trip>> response) {
-                adapter adapter=new adapter(getApplicationContext(),response.body(),sv);
-                rv.setAdapter(adapter);
+                Toast.makeText(MainActivity.this, response.errorBody().toString(), Toast.LENGTH_SHORT).show();
+
+                if(response.isSuccessful()){
+
+                  adapter adapter=new adapter(getApplicationContext(),response.body(),sv);
+                  rv.setAdapter(adapter);
+              }
             }
 
             @Override

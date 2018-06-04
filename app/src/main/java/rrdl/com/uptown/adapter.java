@@ -43,7 +43,8 @@ public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> implements
 
             @Override
             public boolean onQueryTextChange(String s) {
-                getFilter().filter(s);
+              if(!s.equals("")){
+                getFilter().filter(s);}
                 return false;
             }
         });
