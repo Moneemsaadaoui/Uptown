@@ -15,6 +15,7 @@ public class TripDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_detail);
+        setTitle("MORE DETAILS");
         Gson gson=new Gson();
         ImageView pic=findViewById(R.id.picture);
         Glide.with(this).load("http://lorempixel.com/640/480/city")

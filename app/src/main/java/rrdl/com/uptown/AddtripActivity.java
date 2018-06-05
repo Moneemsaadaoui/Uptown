@@ -27,7 +27,7 @@ public class AddtripActivity extends AppCompatActivity {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://serene-escarpment-65486.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create());
-
+        setTitle("ADD NEW TRIP OFFER");
         Retrofit retrofit = builder.build();
         final apiservice apiservice = retrofit.create(apiservice.class);
 

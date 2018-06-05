@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<Token> call, Throwable t) {
-
+                                Toast.makeText(LoginActivity.this, "Wrong Credentals", Toast.LENGTH_SHORT).show();
                             }
                         });
 
