@@ -12,8 +12,8 @@ import retrofit2.http.POST;
 
 public interface apiservice {
     @GET("/api/Trips")
-    Call<List<Trip>> gettrips(@Header("Authorization") String access_token);
+    Call<List<Trip>> gettrips(@Header("Authorization") String AuthToken);
 
     @POST("/api/users/login")
-    Call<JsonObject>login(@Body JsonObject usr);
+    Call<Token>login(@Body JsonObject usr);
 }

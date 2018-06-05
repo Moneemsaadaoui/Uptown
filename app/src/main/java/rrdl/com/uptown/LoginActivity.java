@@ -89,18 +89,19 @@ public class LoginActivity extends AppCompatActivity  {
                 JsonObject jsonObject=new JsonObject();
                 jsonObject.addProperty("username",email.getText().toString());
                 jsonObject.addProperty("password",password.getText().toString());
-                    Call<JsonObject>login=apiservice.login(jsonObject);
-                    login.enqueue(new Callback<JsonObject>() {
+                    Call<Token>login=apiservice.login(jsonObject);
+                    login.enqueue(new Callback<Token>() {
                         @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            prefs.edit().putString("AUTH",response.body().get("id").toString()).commit();
+                        public void onResponse(Call<Token> call, Response<Token> response) {
+                            prefs.edit().putString("AUTH",response.body().getId()).commit();
                             Toast.makeText(LoginActivity.this, prefs.getString("AUTH","") + "as an id", Toast.LENGTH_SHORT).show();
                             Intent intent= new Intent(LoginActivity.this,MainActivity.class);
+                            intent.putExtra("TOKEN",response.body().getId());
                             startActivity(intent);
                         }
 
                         @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                        public void onFailure(Call<Token> call, Throwable t) {
 
                         }
                     });

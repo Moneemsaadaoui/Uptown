@@ -3,6 +3,7 @@ package rrdl.com.uptown;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,18 +25,17 @@ import java.util.List;
 public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> implements Filterable {
     private static final int HEADER_VIEW = 0;
     private static final int CONTENT_VIEW = 1;
-    private List<Trip> response;
-    private List<Trip> responsefiltered;
+    private List<Trip> response=new ArrayList<Trip>();
+    private List<Trip> responsefiltered=new ArrayList<Trip>();
     private Context mContext;
-    private ArrayList<Trip> responsecopy;
+    private ArrayList<Trip> responsecopy=new ArrayList<Trip>();
 
 
-    @SuppressLint("NewApi")
     public adapter(Context context, List<Trip> body, SearchView sv) {
         mContext = context;
         this.response = body;
         responsefiltered=response;
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+       sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
@@ -43,8 +43,8 @@ public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> implements
 
             @Override
             public boolean onQueryTextChange(String s) {
-              if(!s.equals("")){
-                getFilter().filter(s);}
+
+                getFilter().filter(s);
                 return false;
             }
         });
@@ -53,6 +53,29 @@ public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> implements
     }
 
 
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder._date.setText(responsefiltered.get(position).getDate()
+                .substring(0, Math.min(responsefiltered.get(position).getDate().length(), 10)));
+        holder._type.setText(responsefiltered.get(position).getTitle());
+        // responsefiltered.get(positi ).getDr()
+        holder._source.setText(responsefiltered
+                .get(position).getPrice() + " dt , " + responsefiltered.get(position).getPlaces()+" Places");
+
+        Glide.with(mContext).load("http://lorempixel.com/640/480/city")
+                .override(80, 80)
+                .into(holder._thumb);
+
+
+
+    }
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -85,31 +108,6 @@ public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> implements
             }
         };
     }
-
-    @Override
-    public adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
-
-        return new adapter.ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder._date.setText(responsefiltered.get(position).getDate()
-                .substring(0, Math.min(responsefiltered.get(position).getDate().length(), 10)));
-        holder._type.setText(responsefiltered.get(position).getTitle());
-        // responsefiltered.get(positi ).getDr()
-        holder._source.setText(responsefiltered
-                .get(position).getPrice() + " dt , " + responsefiltered.get(position).getPlaces()+" Places");
-
-        Glide.with(mContext).load("http://lorempixel.com/640/480/city")
-                .override(75, 75).diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(holder._thumb);
-
-
-
-    }
-
     @Override
     public int getItemCount() {
         return responsefiltered.size();
@@ -124,7 +122,7 @@ public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> implements
             _date = itemView.findViewById(R.id.title);
             _type = itemView.findViewById(R.id.destination);
             _source = itemView.findViewById(R.id.price);
-            _thumb = itemView.findViewById(R.id.imageView);
+            _thumb=itemView.findViewById(R.id.itempic);
         }
     }
 }

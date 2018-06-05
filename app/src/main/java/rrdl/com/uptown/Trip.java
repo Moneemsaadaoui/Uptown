@@ -3,9 +3,10 @@ package rrdl.com.uptown;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Trip {@SerializedName("Title")
-@Expose
-private String title;
+public class Trip {
+    @SerializedName("Title")
+    @Expose
+    private String title;
     @SerializedName("Startadress")
     @Expose
     private String startadress;

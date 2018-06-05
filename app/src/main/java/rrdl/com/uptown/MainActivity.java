@@ -31,31 +31,8 @@ public class MainActivity extends AppCompatActivity {
         final android.widget.SearchView sv=findViewById(R.id.sv);
         final RecyclerView rv=findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        final SharedPreferences prefs = this.getSharedPreferences("GLOBAL", this.MODE_PRIVATE);
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("https://serene-escarpment-65486.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create());
-
-        Retrofit retrofit = builder.build();
-        final apiservice apiservice = retrofit.create(apiservice.class);
-        Call<List<Trip>>getall=apiservice.gettrips(prefs.getString("AUTH",""));
-        getall.enqueue(new Callback<List<Trip>>() {
-            @Override
-            public void onResponse(Call<List<Trip>> call, Response<List<Trip>> response) {
-                Toast.makeText(MainActivity.this, response.errorBody().toString(), Toast.LENGTH_SHORT).show();
-
-                if(response.isSuccessful()){
-
-                  adapter adapter=new adapter(getApplicationContext(),response.body(),sv);
-                  rv.setAdapter(adapter);
-              }
-            }
-
-            @Override
-            public void onFailure(Call<List<Trip>> call, Throwable t) {
-
-            }
-        });
+        GetallTrips getallTrips=new GetallTrips(this,sv,rv,getIntent().getStringExtra("TOKEN"));
+        getallTrips.getall();
 
 
 
