@@ -48,7 +48,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity  {
+public class LoginActivity extends AppCompatActivity {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -68,47 +68,50 @@ public class LoginActivity extends AppCompatActivity  {
     Button login;
     AutoCompleteTextView email;
     EditText password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         final SharedPreferences prefs = this.getSharedPreferences("GLOBAL", this.MODE_PRIVATE);
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("https://serene-escarpment-65486.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create());
 
-        Retrofit retrofit = builder.build();
-        final apiservice apiservice = retrofit.create(apiservice.class);
-        email=findViewById(R.id.email);
-        password=findViewById(R.id.password);
-        login=findViewById(R.id.signin);
-        login.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try{
-                JsonObject jsonObject=new JsonObject();
-                jsonObject.addProperty("username",email.getText().toString());
-                jsonObject.addProperty("password",password.getText().toString());
-                    Call<Token>login=apiservice.login(jsonObject);
-                    login.enqueue(new Callback<Token>() {
-                        @Override
-                        public void onResponse(Call<Token> call, Response<Token> response) {
-                            prefs.edit().putString("AUTH",response.body().getId()).commit();
-                            Toast.makeText(LoginActivity.this, prefs.getString("AUTH","") + "as an id", Toast.LENGTH_SHORT).show();
-                            Intent intent= new Intent(LoginActivity.this,MainActivity.class);
-                            intent.putExtra("TOKEN",response.body().getId());
-                            startActivity(intent);
-                        }
+            Retrofit.Builder builder = new Retrofit.Builder()
+                    .baseUrl("https://serene-escarpment-65486.herokuapp.com/")
+                    .addConverterFactory(GsonConverterFactory.create());
 
-                        @Override
-                        public void onFailure(Call<Token> call, Throwable t) {
+            Retrofit retrofit = builder.build();
+            final apiservice apiservice = retrofit.create(apiservice.class);
+            email = findViewById(R.id.email);
+            password = findViewById(R.id.password);
+            login = findViewById(R.id.signin);
+            login.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("username", email.getText().toString());
+                        jsonObject.addProperty("password", password.getText().toString());
+                        Call<Token> login = apiservice.login(jsonObject);
+                        login.enqueue(new Callback<Token>() {
+                            @Override
+                            public void onResponse(Call<Token> call, Response<Token> response) {
+                                prefs.edit().putString("AUTH", response.body().getId()).commit();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.putExtra("TOKEN", response.body().getId());
+                                startActivity(intent);
+                            }
 
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<Token> call, Throwable t) {
 
-                }catch (Exception e){e.printStackTrace();}
-            }
-        });
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
     }
 }

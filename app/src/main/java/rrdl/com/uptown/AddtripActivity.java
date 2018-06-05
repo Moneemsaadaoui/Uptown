@@ -1,5 +1,6 @@
 package rrdl.com.uptown;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +40,9 @@ public class AddtripActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final ProgressDialog dialog = new ProgressDialog(AddtripActivity.this);
+                dialog.setMessage("Posting new Offer.");
+                dialog.show();
                 Trip buff=new Trip();
                 buff.setTitle(destination.getText().toString());
                 buff.setStartadress(start.getText().toString());
@@ -50,11 +54,14 @@ public class AddtripActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Trip> call, Response<Trip> response) {
                         Toast.makeText(AddtripActivity.this, "Offer Added !", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+
                     }
 
                     @Override
                     public void onFailure(Call<Trip> call, Throwable t) {
                         Toast.makeText(AddtripActivity.this, "Woops , something went very wrong", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
 
                     }
                 });

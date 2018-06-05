@@ -3,7 +3,9 @@ package rrdl.com.uptown;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 public class TripDetailActivity extends AppCompatActivity {
@@ -14,6 +16,10 @@ public class TripDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_detail);
         Gson gson=new Gson();
+        ImageView pic=findViewById(R.id.picture);
+        Glide.with(this).load("http://lorempixel.com/640/480/city")
+                .override(80, 80)
+                .into(pic);
         trp =gson.fromJson(getIntent().getStringExtra("REF"),Trip.class);
         destination=findViewById(R.id.destination2);
         start=findViewById(R.id.start2);
