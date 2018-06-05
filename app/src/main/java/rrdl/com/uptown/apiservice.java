@@ -14,6 +14,9 @@ public interface apiservice {
     @GET("/api/Trips")
     Call<List<Trip>> gettrips(@Header("Authorization") String AuthToken);
 
+    @POST("/api/Trips")
+    Call<Trip> posttrip(@Header("Authorization") String AuthToken,@Body Trip trip);
+
     @POST("/api/users/login")
     Call<Token>login(@Body JsonObject usr);
 }

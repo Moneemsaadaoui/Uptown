@@ -61,7 +61,7 @@ public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> implements
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder._date.setText(responsefiltered.get(position).getDate()
                 .substring(0, Math.min(responsefiltered.get(position).getDate().length(), 10)));
         holder._type.setText(responsefiltered.get(position).getTitle());
@@ -72,6 +72,18 @@ public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> implements
         Glide.with(mContext).load("http://lorempixel.com/640/480/city")
                 .override(80, 80)
                 .into(holder._thumb);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Gson gson = new Gson();
+
+                Intent intent = new Intent(mContext, TripDetailActivity.class);
+                intent.putExtra("REF", gson.toJson(responsefiltered.get(position)));
+                // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                mContext.startActivity(intent);
+            }
+        });
+
 
 
 
@@ -89,7 +101,7 @@ public class adapter extends RecyclerView.Adapter<adapter.ViewHolder> implements
                 } else {
                     List<Trip> filteredlist = new ArrayList<>();
                     for (Trip row : response) {
-                        if (row.getStartadress().toString().toLowerCase().contains(charstring.toLowerCase())) {
+                        if (row.getTitle().toString().toLowerCase().contains(charstring.toLowerCase())) {
                             filteredlist.add(row);
                         }
                     }

@@ -28,7 +28,8 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddtripActivity"></activity>
+        <activity android:name=".AddtripActivity" />
+        <activity android:name=".TripDetailActivity"></activity>
     </application>
 
 </manifest>
